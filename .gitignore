@@ -52,7 +52,6 @@ Mkfile.old
 dkms.conf
 
 # Project specific
-config.json
 kevent-demo
 nplpi
 nplpi-analyze
