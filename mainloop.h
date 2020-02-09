@@ -1,0 +1,65 @@
+// Copyright 2014-2019 René Ladan
+// SPDX-License-Identifier: BSD-2-Clause
+
+#ifndef NPLPI_MAINLOOP_H
+#define NPLPI_MAINLOOP_H
+
+#include "setclock.h"
+
+#include <stdbool.h>
+
+struct DT_result;
+struct GB_result;
+struct alm;
+struct tm;
+
+/** User input which controls the client */
+struct ML_result {
+	/** Request to change the name of the log file */
+	bool change_logfile;
+	/** Request to quit the program */
+	bool quit;
+	/** Request to set the system time upon each valid minute */
+	bool settime;
+	/** Result of setting the system time */
+	enum eSC_status settime_result;
+	/** The name of the log file */
+	char *logfilename;
+};
+
+/**
+ * Provide a ready-to-use mainloop function for the main program. Both nplpi
+ * and nplpi-analyze use it.
+ *
+ * @param logfilename The name of the log file to write the live data to or
+ * NULL if not in live mode.
+ * @param get_bit The callback to obtain a bit (either live or from a log
+ * file).
+ * @param display_bit The callback to display the currently received bit
+ * (either live or from a log file).
+ * @param display_long_minute The callback to indicate that this minute is too
+ * long (eGB_too_long is set).
+ * @param display_minute The callback to display information about the current
+ * minute.
+ * @param display_new_second The optional callback for additional actions
+ * after the bit is displayed and the minute information is updated.
+ * @param display_time The callback to display the decoded time.
+ * @param process_setclock_result The optional callback to display the result
+ * of setting the system clock.
+ * @param process_input The optional callback to handle interactive user
+ * input.
+ * @param post_process_input The optional callback to finish handling
+ * interactive user input.
+ */
+void mainloop(char *logfilename,
+    struct GB_result (*get_bit)(void),
+    void (*display_bit)(struct GB_result, int),
+    void (*display_long_minute)(void),
+    void (*display_minute)(int),
+    void (*display_new_second)(void),
+    void (*display_time)(struct DT_result, struct tm),
+    struct ML_result (*process_setclock_result)(struct ML_result, int),
+    struct ML_result (*process_input)(struct ML_result, int),
+    struct ML_result (*post_process_input)(struct ML_result, int));
+
+#endif
