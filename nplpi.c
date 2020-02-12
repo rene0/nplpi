@@ -434,7 +434,7 @@ display_minute(int minlen)
 	}
 
 	/* display bits of previous minute */
-	for (xpos = 4, bp = 0; bp < minlen && bp < 61; bp++, xpos++) {
+	for (xpos = 4, bp = 0; bp <= minlen && bp < 61; bp++, xpos++) {
 		if (is_space_bit(bp)) {
 			xpos++;
 		}
