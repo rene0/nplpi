@@ -126,9 +126,7 @@ calculate_date_time(unsigned init_min, unsigned errflags, int increase,
 	}
 	if ((init_min == 2 || increase != 0) && p1 && errflags == 0) {
 		newtime->tm_year = tmp0;
-		if (init_min == 0 && time.tm_year != newtime->tm_year) {
-			dt_res.year_status = eval_jump;
-		}
+		/* check for jumps once month and mday are known and correct */
 	}
 
 	p2 = getpar(buffer, 25, 35, 55); /* month and mday */
