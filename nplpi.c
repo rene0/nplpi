@@ -210,11 +210,12 @@ display_time(struct DT_result dt, struct tm time)
 	    NULL);
 
 	/* flip lights depending on the results */
-#if 0
 	mvchgat(1, 57, 3, A_NORMAL, !dt.dst_announce ? 8 :
 	    dt.dst_status == eDST_done ? 2 : 7, NULL);
-	mvchgat(1, 61, 4, A_NORMAL, !dt.leap_announce ? 8 :
+#if 0
+	mvchgat(1, 61, 4, A_NORMAL,
 	    dt.leapsecond_status == els_done ? 2 : 7, NULL);
+#endif
 	if (dt.minute_length == emin_long) {
 		mvprintw(1, 67, "long ");
 		mvchgat(1, 67, 5, A_NORMAL, 1, NULL);
@@ -224,7 +225,6 @@ display_time(struct DT_result dt, struct tm time)
 	} else {
 		mvchgat(1, 67, 5, A_NORMAL, 8, NULL);
 	}
-#endif
 	refresh();
 }
 
