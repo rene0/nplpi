@@ -173,25 +173,31 @@ display_time(struct DT_result dt, struct tm time)
 	}
 
 	/* color bits depending on the results */
-#if 0
 	mvchgat(0, 4, 1, A_NORMAL, dt.bit0_ok ? 2 : 1, NULL);
-	mvchgat(0, 24, 2, A_NORMAL,
-	    dt.dst_status == eDST_error ? 1 : 2, NULL);
-	mvchgat(0, 39, 1, A_NORMAL,
-	    dt.minute_status == eval_parity ? 1 :
-	    dt.minute_status == eval_bcd ? 3 : 2, NULL);
-	mvchgat(0, 48, 1, A_NORMAL,
-	    dt.hour_status == eval_parity ? 1 :
-	    dt.hour_status == eval_bcd ? 3 : 2, NULL);
-	mvchgat(0, 76, 1, A_NORMAL,
-	    dt.mday_status == eval_parity ? 1 :
-	    (dt.mday_status == eval_bcd || dt.wday_status == eval_bcd ||
-	    dt.month_status == eval_bcd || dt.year_status == eval_bcd) ? 3 : 2,
+	mvchgat(0, 72, 1, A_NORMAL, dt.bit59_ok ? 2 : 1, NULL);
+	mvchgat(0, 67, 1, A_NORMAL,
+	    dt.year_status == eval_parity ? 1 :
+	    dt.year_status == eval_bcd ? 3 : 2, NULL);
+	mvchgat(0, 68, 1, A_NORMAL,
+	    dt.month_status == eval_parity ? 1 :
+	    (dt.month_status == eval_bcd || dt.mday_status == eval_bcd) ? 3 : 2,
 	    NULL);
+	mvchgat(0, 69, 1, A_NORMAL,
+	    dt.wday_status == eval_parity ? 1 :
+	    dt.wday_status == eval_bcd ? 3 : 2, NULL);
+	mvchgat(0, 70, 1, A_NORMAL,
+	    dt.hour_status == eval_parity ? 1 :
+	    (dt.hour_status == eval_bcd ||
+	    dt.minute_status == eval_bcd) ? 3 : 2, NULL);
+#if 0
 	if (dt.leapsecond_status == els_one) {
-		mvchgat(0, 78, 1, A_NORMAL, 3, NULL);
+		//TODO adjust is_space_bit(), positive leap second is inserted
+		// between regular bit 16 and 17 (so 17-59 become 18-60)
+		// negative leapsecond: bit 16 removed, so 17-59 -> 16-58)
+		mvchgat(0, 23, 1, A_NORMAL, 3, NULL);
 	}
 #endif
+
 	/* display date and time */
 	mvprintw(1, 0, "%s %04d-%02d-%02d %s %02d:%02d",
 	    time.tm_isdst == 1 ? "summer" : time.tm_isdst == 0 ? "winter" :
