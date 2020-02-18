@@ -277,14 +277,14 @@ handle_dst(unsigned errflags, bool olderr, const int buffer[], struct tm time,
     struct tm * const newtime)
 {
 	/* determine if a DST change is announced */
-	if (buffer[16] == 1 && errflags == 0) {
+	if ((buffer[53] >> 1) == 1 && errflags == 0) {
 		dst_count++;
 	}
 	if (time.tm_min > 0) {
 		dt_res.dst_announce = 2 * dst_count > minute_count;
 	}
 
-	if (buffer[17] != time.tm_isdst || buffer[18] == time.tm_isdst) {
+	if ((buffer[58] >> 1) != time.tm_isdst) {
 		/*
 		 * Time offset change is OK if:
 		 * - announced and on the hour
@@ -295,7 +295,7 @@ handle_dst(unsigned errflags, bool olderr, const int buffer[], struct tm time,
 		if ((dt_res.dst_announce && time.tm_min == 0) ||
 		    (olderr && errflags == 0) ||
 		    (time.tm_isdst == -1)) {
-			newtime->tm_isdst = buffer[17]; /* expected change */
+			newtime->tm_isdst = buffer[58] >> 1; /* expected change */
 		} else {
 			dt_res.dst_status = eDST_jump;
 			/* sudden change, ignore */
@@ -305,10 +305,8 @@ handle_dst(unsigned errflags, bool olderr, const int buffer[], struct tm time,
 
 	/* done with DST */
 	if (dt_res.dst_announce && time.tm_min == 0) {
+		/* always clear the DST announcement at hh:00 */
 		dt_res.dst_status = eDST_done;
-		/*
-		 * like leap second, always clear the DST announcement at hh:00
-		 */
 	}
 	if (time.tm_min == 0) {
 		dt_res.dst_announce = false;
@@ -347,13 +345,11 @@ decode_time(unsigned init_min, int minlen, unsigned acc_minlen,
 	errflags = calculate_date_time(init_min, errflags, increase, buffer,
 	    *time, &newtime);
 
-#if 0
 	if (init_min < 2) {
-		errflags = handle_leap_second(errflags, minlen, buffer, *time);
+	//	errflags = handle_leap_second(errflags, minlen, buffer, *time);
 
 		errflags = handle_dst(errflags, olderr, buffer, *time, &newtime);
 	}
-#endif
 
 	stamp_date_time(errflags, newtime, time);
 
