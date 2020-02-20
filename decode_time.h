@@ -58,8 +58,9 @@ struct DT_result {
 	 */
 	bool bit0_ok;
 	/**
-	 * bit 59 should always be 100 ms long
+	 * bits 52 and 59 must always be 100 ms long
 	 */
+	bool bit52_ok;
 	bool bit59_ok;
 	/** minute length ok ? */
 	enum eDT_length minute_length;

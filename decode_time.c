@@ -56,11 +56,12 @@ check_time_sanity(int minlen, const int buffer[])
 	dt_res.dst_status = eDST_ok;
 
 	dt_res.bit0_ok = buffer[0] == 4;
+	dt_res.bit52_ok = buffer[52] == 0;
 	dt_res.bit59_ok = buffer[59] == 0;
 
 	/* only decode if set */
 	return (dt_res.minute_length == emin_ok) && dt_res.bit0_ok &&
-	    dt_res.bit59_ok;
+	    dt_res.bit52_ok && dt_res.bit59_ok;
 }
 
 static void

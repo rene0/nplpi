@@ -316,7 +316,7 @@ reset_bitlen(void)
 		fprintf(logfile, "!");
 	}
 	bit.bit0 = bit.realfreq / 2;
-	bit.bit59 = bit.realfreq / 10;
+	bit.bit5x = bit.realfreq / 10;
 	bit.bitlen_reset = true;
 }
 
@@ -454,9 +454,9 @@ get_bit_live(void)
 	if (init_bit == 2) {
 		bit.realfreq = hw.freq * 1000000;
 		bit.bit0 = bit.realfreq / 2;
-		bit.bit59 = bit.realfreq / 10;
+		bit.bit5x = bit.realfreq / 10;
 	}
-	len100ms = bit.bit0 / 10 + bit.bit59 / 2;
+	len100ms = bit.bit0 / 10 + bit.bit5x / 2;
 
 	bit.tlow = -1;
 	bit.tlast0 = -1;
@@ -519,20 +519,22 @@ get_bit_live(void)
 		    (gb_res.marker == emark_none ||
 		     gb_res.marker == emark_minute)) {
 			long long avg;
-			if (bitpos == 59 && gb_res.bitval == ebv_00) {
-				bit.bit59 +=
-				    ((long long)(bit.tlow * 1000000 -
-				    bit.bit59) / 2);
-			}
+
 			if (/*bitpos == 0 && */gb_res.bitval == ebv_bom) {
 				bit.bit0 +=
 				    ((long long)(bit.tlow * 1000000 -
 				    bit.bit0) / 2);
 			}
+			if ((bitpos == 52 || bitpos == 59) &&
+			    gb_res.bitval == ebv_00) {
+				bit.bit5x +=
+				    ((long long)(bit.tlow * 1000000 -
+				    bit.bit5x) / 2);
+			}
 			/* Force sane values during e.g. a thunderstorm */
-			avg = (bit.bit0 - bit.bit59) / 2;
-			if (4 * bit.bit0 < bit.bit59 * 15 ||
-			    2 * bit.bit0 > bit.bit59 * 15) {
+			avg = (bit.bit0 - bit.bit5x) / 2;
+			if (4 * bit.bit0 < bit.bit5x * 15 ||
+			    2 * bit.bit0 > bit.bit5x * 15) {
 				reset_bitlen();
 				adj_freq = false;
 			}
@@ -541,7 +543,7 @@ get_bit_live(void)
 				reset_bitlen();
 				adj_freq = false;
 			}
-			if (bit.bit59 + avg < bit.realfreq / 10) {
+			if (bit.bit5x + avg < bit.realfreq / 10) {
 				reset_bitlen();
 				adj_freq = false;
 			}

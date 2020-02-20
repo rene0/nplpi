@@ -117,7 +117,7 @@ main(int argc, char *argv[])
 			min++;
 		}
 		printf("%i %i %i %u %llu %llu %llu %i:%i\n", bit.bitval, bi.tlow,
-		    bi.tlast0, bi.t, bi.bit0, bi.bit59, bi.realfreq, min,
+		    bi.tlast0, bi.t, bi.bit0, bi.bit5x, bi.realfreq, min,
 		    get_bitpos());
 		bit = next_bit();
 	}

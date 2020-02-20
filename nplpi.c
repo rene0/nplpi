@@ -92,7 +92,7 @@ draw_initial_screen(void)
 
 	mvprintw(6, 0, "new");
 	mvprintw(8, 0, "bit    act  last0  total   "
-	    "realfreq         b0        b59 state     radio");
+	    "realfreq         b0     b52/59 state     radio");
 
 	toosmall = false;
 	draw_keys();
@@ -112,7 +112,7 @@ display_bit(struct GB_result bit, int bitpos)
 
 	mvprintw(9, 1, "%2u %6i %6i %6u %10.3f %10.3f %10.3f",
 	    bitpos, bitinf.tlow, bitinf.tlast0, bitinf.t, bitinf.realfreq / 1e6,
-	    bitinf.bit0 / 1e6, bitinf.bit59 / 1e6);
+	    bitinf.bit0 / 1e6, bitinf.bit5x / 1e6);
 	mvchgat(9, 25, 10, A_NORMAL, bitinf.freq_reset ? 3 : 7, NULL);
 	mvchgat(9, 36, 21, A_NORMAL, bitinf.bitlen_reset ? 3 : 7, NULL);
 
@@ -174,6 +174,7 @@ display_time(struct DT_result dt, struct tm time)
 
 	/* color bits depending on the results */
 	mvchgat(0, 4, 1, A_NORMAL, dt.bit0_ok ? 2 : 1, NULL);
+	mvchgat(0, 65, 1, A_NORMAL, dt.bit52_ok ? 2 : 1, NULL);
 	mvchgat(0, 72, 1, A_NORMAL, dt.bit59_ok ? 2 : 1, NULL);
 	mvchgat(0, 67, 1, A_NORMAL,
 	    dt.year_status == eval_parity ? 1 :

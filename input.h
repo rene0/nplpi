@@ -84,7 +84,7 @@ struct hardware {
  */
 struct bitinfo {
 	/**
-	 * bit0 and bit59 were reset to their initial values (normally
+	 * bit0, bit52 and bit59 were reset to their initial values (normally
 	 * because of reception errors or fluctuations in CPU usage)
 	 */
 	bool bitlen_reset;
@@ -113,9 +113,10 @@ struct bitinfo {
 	 */
 	unsigned long long bit0;
 	/**
-	 * the average length of the high part of bit 59 (a 0 bit) in samples
+	 * the average length of the high part of bit 52 and 59
+	 * (two 0 bits) in samples
 	 */
-	unsigned long long bit59;
+	unsigned long long bit5x;
 };
 
 /**
