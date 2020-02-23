@@ -54,14 +54,15 @@ nplpi-readpin: nplpi-readpin.o libnpl.so
 
 kevent-demo.o: input.h kevent-demo.c
 	# __BSD_VISIBLE for FreeBSD < 12.0
-	[ `uname -s` = "FreeBSD" ] && $(CC) -fpic $(CFLAGS) $(JSON_C) -c kevent-demo.c -o $@ -D__BSD_VISIBLE=1
+	[ `uname -s` = "FreeBSD" ] && $(CC) -fpic $(CFLAGS) $(JSON_C) -c kevent-demo.c -o $@ -D__BSD_VISIBLE=1 || true
 kevent-demo: kevent-demo.o libnpl.so
-	[ `uname -s` = "FreeBSD" ] && $(CC) -o $@ kevent-demo.o libnpl.so $(JSON_L)
+	[ `uname -s` = "FreeBSD" ] && $(CC) -o $@ kevent-demo.o libnpl.so $(JSON_L) || true
 
 doxygen:
 	doxygen
 
 clean:
+	rm -f kevent-demo
 	rm -f nplpi
 	rm -f nplpi-analyze
 	rm -f nplpi-readpin
