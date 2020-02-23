@@ -92,9 +92,6 @@ display_time(struct DT_result dt, struct tm time)
 	if (dt.dst_announce) {
 		printf("Time offset change announced\n");
 	}
-	if (dt.leap_announce) {
-		printf("Leap second announced\n");
-	}
 	if (dt.leapsecond_status == els_done) {
 		printf("Leap second processed\n");
 	} else if (dt.leapsecond_status == els_one) {

@@ -82,8 +82,6 @@ struct DT_result {
 	enum eDT_leapsecond leapsecond_status;
 	/** DST announcement ? */
 	bool dst_announce;
-	/** leap second announcement ? */
-	bool leap_announce;
 };
 
 /**
