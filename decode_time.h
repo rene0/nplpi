@@ -44,7 +44,7 @@ enum eDT_leapsecond {
 	/** no leap second */
 	els_none,
 	/**
-	 * ??? leap second should always be 0 if present :
+	 * leap second should always be 0 if present
 	 */
 	els_one,
 	/** leap second just processed */
