@@ -58,7 +58,7 @@ struct DT_result {
 	 */
 	bool bit0_ok;
 	/**
-	 * bits 52 and 59 must always be 100 ms long
+	 * bits 52a and 59a must always be 0
 	 */
 	bool bit52_ok;
 	bool bit59_ok;
