@@ -1,4 +1,5 @@
 [FIDOCAD]
+FJC B 0.5
 MC 135 95 0 0 elettrotecnica.ms01
 MC 70 120 0 0 elettrotecnica.ms01
 MC 10 30 0 0 elettrotecnica.ms01
@@ -28,14 +29,14 @@ MC 100 85 0 0 080
 FCJ
 TY 100 75 4 3 0 0 0 * R2
 TY 100 70 4 3 0 0 0 * 470K
-RV 5 15 65 30 0
-TY 10 20 4 3 0 0 0 Bitstream++Charter Old Canaduino 60kHz
-TY 60 30 4 3 0 0 0 Bitstream++Charter V
+RV 5 15 70 30 0
+TY 10 20 4 3 0 0 0 * V1 Canaduino 60kHz
+TY 60 30 4 3 0 0 0 * V
 LI 60 30 60 40 0
 LI 50 30 50 40 0
-TY 50 30 4 3 0 0 0 Bitstream++Charter G
-TY 15 30 4 3 0 0 0 Bitstream++Charter P1
-TY 25 30 4 3 0 0 0 Bitstream++Charter T
+TY 50 30 4 3 0 0 0 * G
+TY 15 30 4 3 0 0 0 * P1
+TY 25 30 4 3 0 0 0 * T
 MC 135 35 3 0 010
 FCJ
 TY 125 25 4 3 0 0 0 * 
@@ -47,7 +48,7 @@ LI 70 100 70 105 0
 LI 110 85 120 85 0
 LI 100 105 70 105 0
 LI 100 130 100 105 0
-TY 100 130 4 3 0 0 0 Bitstream++Charter RPi GPIO 3.3V
+TY 100 130 4 3 0 0 0 * RPi GPIO 3.3V
 SA 70 105 0
 LI 135 50 135 55 0
 SA 70 85 0
@@ -72,3 +73,4 @@ MC 25 5 0 0 130
 LI 25 15 25 5 0
 LI 35 15 35 5 0
 LI 135 35 135 40 0
+LI 135 70 135 75 0

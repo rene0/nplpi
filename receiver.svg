@@ -69,18 +69,18 @@
 </g>
 <g transform="translate(490.0,350.0) scale(0.9965034965034963,1) "><text x="0" y="26.0" font-family="Courier New" font-size="26.0" font-style="" font-weigth="" fill="#000000">470K</text>
 </g>
-<rect x="15.0" y="75.0" rx="0" ry="0" width="300.0" height="75.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
-<g transform="translate(40.0,100.0) scale(1.2954545454545454,1) "><text x="0" y="20.0" font-family="Bitstream Charter" font-size="20.0" font-style="" font-weigth="" fill="#000000">Old Canaduino 60kHz</text>
+<rect x="15.0" y="75.0" rx="0" ry="0" width="325.0" height="75.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
+<g transform="translate(40.0,100.0) scale(1.2954545454545454,1) "><text x="0" y="20.0" font-family="Courier New" font-size="20.0" font-style="" font-weigth="" fill="#000000">V1 Canaduino 60kHz</text>
 </g>
-<g transform="translate(290.0,150.0) scale(1.2954545454545454,1) "><text x="0" y="20.0" font-family="Bitstream Charter" font-size="20.0" font-style="" font-weigth="" fill="#000000">V</text>
+<g transform="translate(290.0,150.0) scale(1.2954545454545454,1) "><text x="0" y="20.0" font-family="Courier New" font-size="20.0" font-style="" font-weigth="" fill="#000000">V</text>
 </g>
 <line x1="290.0" y1="150.0" x2="290.0" y2="200.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
 <line x1="240.0" y1="150.0" x2="240.0" y2="200.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
-<g transform="translate(240.0,150.0) scale(1.2954545454545454,1) "><text x="0" y="20.0" font-family="Bitstream Charter" font-size="20.0" font-style="" font-weigth="" fill="#000000">G</text>
+<g transform="translate(240.0,150.0) scale(1.2954545454545454,1) "><text x="0" y="20.0" font-family="Courier New" font-size="20.0" font-style="" font-weigth="" fill="#000000">G</text>
 </g>
-<g transform="translate(65.0,150.0) scale(1.2954545454545454,1) "><text x="0" y="20.0" font-family="Bitstream Charter" font-size="20.0" font-style="" font-weigth="" fill="#000000">P1</text>
+<g transform="translate(65.0,150.0) scale(1.2954545454545454,1) "><text x="0" y="20.0" font-family="Courier New" font-size="20.0" font-style="" font-weigth="" fill="#000000">P1</text>
 </g>
-<g transform="translate(115.0,150.0) scale(1.2954545454545454,1) "><text x="0" y="20.0" font-family="Bitstream Charter" font-size="20.0" font-style="" font-weigth="" fill="#000000">T</text>
+<g transform="translate(115.0,150.0) scale(1.2954545454545454,1) "><text x="0" y="20.0" font-family="Courier New" font-size="20.0" font-style="" font-weigth="" fill="#000000">T</text>
 </g>
 <line x1="665.0" y1="175.0" x2="665.0" y2="165.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
 <ellipse cx="665.0" cy="155.0" rx="10.0" ry="10.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
@@ -95,7 +95,7 @@
 <line x1="540.0" y1="425.0" x2="590.0" y2="425.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
 <line x1="490.0" y1="525.0" x2="340.0" y2="525.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
 <line x1="490.0" y1="650.0" x2="490.0" y2="525.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
-<g transform="translate(490.0,650.0) scale(1.2954545454545454,1) "><text x="0" y="20.0" font-family="Bitstream Charter" font-size="20.0" font-style="" font-weigth="" fill="#000000">RPi GPIO 3.3V</text>
+<g transform="translate(490.0,650.0) scale(1.2954545454545454,1) "><text x="0" y="20.0" font-family="Courier New" font-size="20.0" font-style="" font-weigth="" fill="#000000">RPi GPIO 3.3V</text>
 </g>
 <circle cx="340.0" cy="525.0" r="5.0" style="stroke:#000000;stroke-width:0.33" fill="#000000"/>
 <line x1="665.0" y1="250.0" x2="665.0" y2="275.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
@@ -135,6 +135,6 @@
 <line x1="125.0" y1="15.0" x2="155.0" y2="15.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
 <line x1="115.0" y1="75.0" x2="115.0" y2="25.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
 <line x1="165.0" y1="75.0" x2="165.0" y2="25.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
-<line x1="165.0" y1="25.0" x2="165.0" y2="25.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
 <line x1="665.0" y1="175.0" x2="665.0" y2="200.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
+<line x1="665.0" y1="350.0" x2="665.0" y2="375.0" style="stroke:#000000;stroke-width:2.5;fill-rule: evenodd;" fill="none"/>
 </svg>
