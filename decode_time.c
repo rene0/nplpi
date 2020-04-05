@@ -55,6 +55,7 @@ check_time_sanity(int minlen, const int buffer[])
 		dt_res.minute_length = emin_ok;
 	}
 
+	/* NPL time only has one bit for DST, so always OK, changed or jumped */
 	dt_res.dst_status = eDST_ok;
 
 	dt_res.bit0_ok = buffer[0] == 4;
