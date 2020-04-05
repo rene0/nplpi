@@ -45,6 +45,8 @@ getbcd(const int buffer[], unsigned start, unsigned stop)
 static bool
 check_time_sanity(int minlen, const int buffer[])
 {
+	int marker_offset;
+
 	if (minlen == -1 || minlen > 61) {
 		dt_res.minute_length = emin_long;
 	} else if (minlen < 59) {
@@ -56,8 +58,39 @@ check_time_sanity(int minlen, const int buffer[])
 	dt_res.dst_status = eDST_ok;
 
 	dt_res.bit0_ok = buffer[0] == 4;
-	dt_res.bit52_ok = (buffer[52] & 1) == 0;
-	dt_res.bit59_ok = (buffer[59] & 1) == 0;
+
+	if (dt_res.bit0_ok && dt_res.minute_length == emin_ok) {
+		int pattern[8] = { 0, 1, 1, 1, 1, 1, 1, 0 };
+		int offset, pos;
+
+		/* search for 01111110 pattern in A bits */
+		for (offset = -1; offset < 2; offset++) {
+			for (pos = 0; pos < 8 && pattern[pos] == (buffer[pos + 52 + offset] & 1); pos++)
+				;
+			if (pos == 8)
+				break;
+		}
+		switch (offset) {
+			case -1:
+				dt_res.marker_status = emk_min1;
+				break;
+			case 0:
+				dt_res.marker_status = emk_zero;
+				break;
+			case 1:
+				dt_res.marker_status = emk_plus1;
+				break;
+			default:
+				dt_res.marker_status = emk_error;
+				return false;
+		}
+	}
+
+	marker_offset = dt_res.marker_status == emk_min1 ? -1 :
+	    dt_res.marker_status == emk_zero ? 0 : 1;
+
+	dt_res.bit52_ok = (buffer[52 + marker_offset] & 1) == 0;
+	dt_res.bit59_ok = (buffer[59 + marker_offset] & 1) == 0;
 
 	/* only decode if set */
 	return (dt_res.minute_length == emin_ok) && dt_res.bit0_ok &&
@@ -115,9 +148,14 @@ calculate_date_time(unsigned init_min, unsigned errflags, int increase,
 	int tmp0, tmp1;
 	bool p1, p2, p3, p4;
 	int centofs;
+	int marker_offset;
 
-	p1 = getpar(buffer, 17, 24, 54); /* year */
-	tmp0 = getbcd(buffer, 17, 24);
+	marker_offset = dt_res.marker_status == emk_min1 ? -1 :
+	    dt_res.marker_status == emk_zero ? 0 : 1;
+
+	p1 = getpar(buffer, 17 + marker_offset, 24 + marker_offset,
+	    54 + marker_offset); /* year */
+	tmp0 = getbcd(buffer, 17 + marker_offset, 24 + marker_offset);
 	if (!p1) {
 		dt_res.year_status = eval_parity;
 	} else if (tmp0 > 99) {
@@ -131,9 +169,9 @@ calculate_date_time(unsigned init_min, unsigned errflags, int increase,
 		/* check for jumps once month and mday are known and correct */
 	}
 
-	p2 = getpar(buffer, 25, 35, 55); /* month and mday */
-	tmp0 = getbcd(buffer, 25, 29);
-	tmp1 = getbcd(buffer, 30, 35);
+	p2 = getpar(buffer, 25 + marker_offset, 35 + marker_offset, 55 + marker_offset); /* month and mday */
+	tmp0 = getbcd(buffer, 25 + marker_offset, 29 + marker_offset);
+	tmp1 = getbcd(buffer, 30 + marker_offset, 35 + marker_offset);
 	if (!p2) {
 		dt_res.month_status = eval_parity;
 		dt_res.mday_status = eval_parity;
@@ -162,8 +200,8 @@ calculate_date_time(unsigned init_min, unsigned errflags, int increase,
 		}
 	}
 
-	p3 = getpar(buffer, 36, 38, 56); /* wday */
-	tmp0 = getbcd(buffer, 36, 38);
+	p3 = getpar(buffer, 36 + marker_offset, 38 + marker_offset, 56 + marker_offset); /* wday */
+	tmp0 = getbcd(buffer, 36 + marker_offset, 38 + marker_offset);
 	if (!p3) {
 		dt_res.wday_status = eval_parity;
 	} else {
@@ -197,9 +235,9 @@ calculate_date_time(unsigned init_min, unsigned errflags, int increase,
 		}
 	}
 
-	p4 = getpar(buffer, 39, 51, 57); /* hour and minute */
-	tmp0 = getbcd(buffer, 39, 44);
-	tmp1 = getbcd(buffer, 45, 51);
+	p4 = getpar(buffer, 39 + marker_offset, 51 + marker_offset, 57 + marker_offset); /* hour and minute */
+	tmp0 = getbcd(buffer, 39 + marker_offset, 44 + marker_offset);
+	tmp1 = getbcd(buffer, 45 + marker_offset, 51 + marker_offset);
 	if (!p4) {
 		dt_res.hour_status = eval_parity;
 		dt_res.minute_status = eval_parity;
@@ -278,15 +316,20 @@ static unsigned
 handle_dst(unsigned errflags, bool olderr, const int buffer[], struct tm time,
     struct tm * const newtime)
 {
+	int marker_offset;
+
+	marker_offset = dt_res.marker_status == emk_min1 ? -1 :
+	    dt_res.marker_status == emk_zero ? 0 : 1;
+
 	/* determine if a DST change is announced */
-	if ((buffer[53] >> 1) == 1 && errflags == 0) {
+	if ((buffer[53 + marker_offset] >> 1) == 1 && errflags == 0) {
 		dst_count++;
 	}
 	if (time.tm_min > 0) {
 		dt_res.dst_announce = 2 * dst_count > minute_count;
 	}
 
-	if ((buffer[58] >> 1) != time.tm_isdst) {
+	if ((buffer[58 + marker_offset] >> 1) != time.tm_isdst) {
 		/*
 		 * Time offset change is OK if:
 		 * - announced and on the hour
@@ -297,7 +340,7 @@ handle_dst(unsigned errflags, bool olderr, const int buffer[], struct tm time,
 		if ((dt_res.dst_announce && time.tm_min == 0) ||
 		    (olderr && errflags == 0) ||
 		    (time.tm_isdst == -1)) {
-			newtime->tm_isdst = buffer[58] >> 1; /* expected change */
+			newtime->tm_isdst = buffer[58 + marker_offset] >> 1; /* expected change */
 		} else {
 			dt_res.dst_status = eDST_jump;
 			/* sudden change, ignore */

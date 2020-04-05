@@ -51,6 +51,18 @@ enum eDT_leapsecond {
 	els_done
 };
 
+/** Marker 01111110 position */
+enum eDT_marker {
+	/** negative leap second */
+	emk_min1,
+	/** normal minute */
+	emk_zero,
+	/** positive leap second */
+	emk_plus1,
+	/** marker not found at bits 51-60 */
+	emk_error
+};
+
 /** Structure containing the state of all decoded information of this minute */
 struct DT_result {
 	/**
@@ -82,6 +94,8 @@ struct DT_result {
 	enum eDT_leapsecond leapsecond_status;
 	/** DST announcement ? */
 	bool dst_announce;
+	/** minute marker 01111110 state */
+	enum eDT_marker marker_status;
 };
 
 /**
